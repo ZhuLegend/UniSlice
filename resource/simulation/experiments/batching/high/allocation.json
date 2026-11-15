@@ -1,0 +1,17 @@
+{
+  "placements": [
+    {
+      "count": 2,
+      "model": "resnet50",
+      "slice": "1g.10gb",
+      "template_name": "full"
+    },
+    {
+      "count": 5,
+      "model": "vgg19",
+      "slice": "1g.10gb",
+      "template_name": "full"
+    }
+  ],
+  "schema_version": 1
+}

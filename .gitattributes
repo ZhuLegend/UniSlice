@@ -1,0 +1,3 @@
+# Preserve the bytes used by measurement and experiment manifests.
+logs/model_latency.csv -text
+resource/simulation/** -text

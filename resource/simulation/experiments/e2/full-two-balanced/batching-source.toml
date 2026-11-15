@@ -1,0 +1,2 @@
+batch_extractor_strategy = { "type" = "TimeoutProbabilitySplitAndSatisfy", "timeout" = { "secs" = 0, "nanos" = 8000000 }, "inner" = { "threshold" = 0.0, "inner" = {  } } }
+batch_size_range = [1, 32]

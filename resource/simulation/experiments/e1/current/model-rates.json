@@ -1,0 +1,10 @@
+{
+  "alexnet": 100.0,
+  "efficientnet": 100.0,
+  "mnasnet": 100.0,
+  "mobilenet": 100.0,
+  "resnet18": 100.0,
+  "resnet50": 100.0,
+  "vgg16": 100.0,
+  "vgg19": 100.0
+}

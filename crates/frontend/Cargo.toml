@@ -1,0 +1,51 @@
+[package]
+name = "frontend"
+edition.workspace = true
+version.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { workspace = true, features = ["full"] }
+tch = { workspace = true, optional = true }
+ort = { workspace = true, features = ["ndarray"], optional = true }
+clap = { workspace = true, features = ["derive"] }
+
+uuid = { workspace = true, optional = true }
+
+model = { workspace = true }
+comm = { workspace = true }
+compute_node = { workspace = true }
+worker = { workspace = true }
+ndarray = { workspace = true }
+image = "0.25.5"
+
+[[bin]]
+name = "nv_torch"
+path = "src/bin/nv_torch/main.rs"
+required-features = ["nv_torch"]
+
+[[bin]]
+name = "hw_onnx"
+path = "src/bin/hw_onnx/main.rs"
+required-features = ["hw_onnx"]
+
+[[bin]]
+name = "nv_standalone"
+path = "src/bin/nv_standalone/main.rs"
+required-features = ["uuid", "nv_torch", "vgpu"]
+
+[[bin]]
+name = "hw_standalone"
+path = "src/bin/hw_standalone/main.rs"
+required-features = ["uuid", "hw_onnx", "vgpu"]
+
+[features]
+nv_torch = ["compute_node/nvidia", "compute_node/torch", "vgpu", "tch"]
+vgpu = ["compute_node/vgpu"]
+hw_onnx = [
+    "compute_node/huawei",
+    "compute_node/onnx",
+    "compute_node/vgpu",
+    "ort",
+]

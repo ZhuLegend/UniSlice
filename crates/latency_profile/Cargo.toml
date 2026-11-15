@@ -1,0 +1,5 @@
+[package]
+name = "latency_profile"
+version.workspace = true
+edition.workspace = true
+

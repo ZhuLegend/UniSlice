@@ -1,0 +1,20 @@
+# Synthetic single-model service check; rates are samples per second.
+[sender]
+daemon_url = "http://127.0.0.1:3000"
+log_dir = "deployment/client"
+stats_interval = 5
+cycle_duration = 30
+
+[metrics]
+rate_window_size = 5
+latency_window_size = 100
+
+[rate_change]
+strategy = "sudden"
+transition_steps = 10
+walk_step_percent = 0.1
+
+[[models]]
+name = "resnet50"
+rate_range = [12.5, 12.5]
+batch_size_range = [1, 1]

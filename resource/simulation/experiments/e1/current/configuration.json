@@ -1,0 +1,201 @@
+{
+  "latency_csv": "execution-source.csv",
+  "create_delay_ms": 15000,
+  "destroy_delay_ms": 15000,
+  "control_timeout_ms": 300000,
+  "inference_timeout_ms": 300000,
+  "batch_size_range": [
+    1,
+    32
+  ],
+  "models": [
+    "alexnet",
+    "efficientnet",
+    "mnasnet",
+    "mobilenet",
+    "resnet18",
+    "resnet50",
+    "vgg16",
+    "vgg19"
+  ],
+  "nodes": [
+    {
+      "name": "a100_full_1",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5401,
+      "resource": {
+        "ce": 7,
+        "memory": 80
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100"
+    },
+    {
+      "name": "a100_full_2",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5402,
+      "resource": {
+        "ce": 7,
+        "memory": 80
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100"
+    },
+    {
+      "name": "a100_full_3",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5403,
+      "resource": {
+        "ce": 7,
+        "memory": 80
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100"
+    },
+    {
+      "name": "a100_full_4",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5404,
+      "resource": {
+        "ce": 7,
+        "memory": 80
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100"
+    },
+    {
+      "name": "a100_half_1",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5405,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    },
+    {
+      "name": "a100_half_2",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5406,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    },
+    {
+      "name": "a100_half_3",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5407,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    },
+    {
+      "name": "a100_half_4",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5408,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    },
+    {
+      "name": "a100_half_5",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5409,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    },
+    {
+      "name": "a100_half_6",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5410,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    },
+    {
+      "name": "a100_half_7",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5411,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    },
+    {
+      "name": "a100_half_8",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5412,
+      "resource": {
+        "ce": 3,
+        "memory": 40
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "nvidia_a100_half"
+    }
+  ],
+  "model_lifecycle": {
+    "load_ms": 1000,
+    "unload_ms": 100,
+    "overrides": []
+  },
+  "batching_config": "batching-source.toml",
+  "execution_noise": {
+    "cv": 0.1,
+    "seed": 20260923
+  }
+}

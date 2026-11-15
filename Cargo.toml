@@ -1,0 +1,43 @@
+# Configuration values are preserved. See the English deployment and experiment guides.
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+[workspace.package]
+edition = "2024"
+version = "0.0.1"
+[workspace.dependencies]
+latency_profile = { path = "crates/latency_profile" }
+utils = { path = "crates/utils" }
+model = { path = "crates/model" }
+comm = { path = "crates/comm" }
+worker = { path = "crates/worker" }
+compute_node = { path = "crates/compute_node" }
+bytes = "1.8.0"
+uuid = "1.11.0"
+clap = "4.5.21"
+bincode = "2.0.0-rc.3"
+rand = "0.9.0"
+futures = "0.3.31"
+snafu = "0.8.5"
+# benchmark
+divan = "0.1.17"
+trait-variant = "0.1.2"
+tokio = { version = "1.41.1", default-features = false }
+tokio-util = "0.7.12"
+tracing = "0.1.40"
+tracing-futures = "0.2.5"
+tracing-subscriber = "0.3.18"
+console-subscriber = "0.4.1"
+serde = { version = "1.0.215", features = ["derive"] }
+serde_json = "1.0.133"
+ndarray = { version = "0.16.1", features = ["serde"] }
+tch = "=0.19.0"
+nvml-wrapper = "0.11.0"
+hw_dcmi_wrapper = "0.0.3"
+ort = { version = "2.0.0-rc.9", default-features = false, features = [
+    "ndarray",
+    "download-binaries",
+    "copy-dylibs",
+] }
+half = "2.4.1"
+rayon = "1.10.0"

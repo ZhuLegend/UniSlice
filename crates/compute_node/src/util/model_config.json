@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ModelConfig",
+  "description": "不同模型类型的模型配置。",
+  "type": "object",
+  "properties": {
+    "input_dim": {
+      "type": "array",
+      "description": "模型的输入维度。",
+      "items": {
+        "type": "integer",
+        "format": "int64"
+      }
+    },
+    "input_type": {
+      "type": "string",
+      "description": "输入数据类型（例如 UInt8, Int64 等）。",
+      "enum": [
+        "UInt8",
+        "Int8",
+        "Int16",
+        "Int",
+        "Int64",
+        "Float",
+        "Double",
+        "Bool",
+        "Half",
+        "BFloat16",
+        "UInt16",
+        "UInt",
+        "UInt64",
+        "ComplexHalf",
+        "ComplexFloat",
+        "ComplexDouble",
+        "QInt8",
+        "QUInt8",
+        "QInt32"
+      ]
+    },
+    "output_type": {
+      "type": "string",
+      "description": "输出数据类型（例如 UInt8, Int64 等）。",
+      "enum": [
+        "UInt8",
+        "Int8",
+        "Int16",
+        "Int",
+        "Int64",
+        "Float",
+        "Double",
+        "Bool",
+        "Half",
+        "BFloat16",
+        "UInt16",
+        "UInt",
+        "UInt64",
+        "ComplexHalf",
+        "ComplexFloat",
+        "ComplexDouble",
+        "QInt8",
+        "QUInt8",
+        "QInt32"
+      ]
+    },
+    "torch_model_config": {
+      "type": "object",
+      "description": "Pytorch 模型配置。",
+      "properties": {
+        "warm_up": {
+          "type": "boolean",
+          "description": "是否进行预热操作。"
+        }
+      },
+      "additionalProperties": false,
+      "default": {}
+    },
+    "onnx_model_config": {
+      "type": "object",
+      "description": "ONNX 模型配置。",
+      "properties": {
+        "optimize_level": {
+          "type": "integer",
+          "description": "优化级别，应在0～3之间。",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "intra_thread": {
+          "type": "integer",
+          "description": "节点内并行线程数。"
+        },
+        "use_parallel_execution": {
+          "type": "boolean",
+          "description": "是否使用并行执行，启用时可以提高多分支模型的性能。"
+        },
+        "inter_thread": {
+          "type": "integer",
+          "description": "并行执行图的线程数，仅当`use_parallel_execution`为`true`时有效。",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "optimize_level",
+        "intra_thread",
+        "use_parallel_execution"
+      ],
+      "default": {}
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "input_dim",
+    "input_type",
+    "output_type"
+  ]
+}

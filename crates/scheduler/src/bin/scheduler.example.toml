@@ -1,0 +1,51 @@
+# Configuration values are preserved. See the English deployment and experiment guides.
+#batch_extractor_strategy = { type = "SplitAndSatisfy" }
+# batch_extractor_strategy = { type = "Greedy" }
+# batch_extractor_strategy = { type = "Ignored" }
+batch_extractor_strategy = { type = "TimeoutSplitAndSatisfy", timeout = { secs = 0, nanos = 8000000 }, inner = { } }
+batch_size_range = [1, 32]
+[init_arrival_rate]
+alexnet = 100.0
+efficientnet = 100.0
+mnasnet = 100.0
+mobilenet = 100.0
+resnet18 = 100.0
+resnet50 = 100.0
+vgg16 = 100.0
+vgg19 = 100.0
+[device_combinations]
+[device_combinations.nvidia_a100]
+type = "Nvidia"
+config.share_targets = [
+    "1g.10gb",
+    "2g.20gb",
+    "3g.40gb",
+    "4g.40gb",
+    "7g.80gb"
+]
+config.resource_template = { ce = 7, memory = 80 }
+[device_combinations.nvidia_a100_half]
+type = "Nvidia"
+config.share_targets = [
+    "1g.10gb",
+    "2g.20gb",
+    "3g.40gb",
+]
+config.resource_template = { ce = 3, memory = 40 }
+# [device_combinations.huawei_910b3]
+# type = "Huawei"
+# config.share_targets = [
+# ]
+# config.resource_template = { ai_core = 20, ai_cpu = 7, memory = 64 }
+[remote_nodes]
+node_a100_1 = { ip = "127.0.0.1", port = 9000, template_name = "nvidia_a100" }
+node_a100_half_1 = { ip = "127.0.0.1", port = 9001, template_name = "nvidia_a100_half" }
+node_a100_half_2 = { ip = "127.0.0.1", port = 9002, template_name = "nvidia_a100_half" }
+#node_910b3_1 = { ip = "192.168.1.201", port = 8888, template_name = "huawei_910b3" }
+#node_910b3_2 = { ip = "192.168.1.202", port = 8888, template_name = "huawei_910b3" }
+# node_local = { ip = "127.0.0.1", port = 8888, template_name = "nvidia_a100" }
+# node_a100_3 = { ip = "192.168.1.103", port = 8888, template_name = "nvidia_a100" }
+# node_a100_4 = { ip = "192.168.1.104", port = 8888, template_name = "nvidia_a100" }
+# node_910b3_3 = { ip = "192.168.1.203", port = 8888, template_name = "huawei_910b3" }
+# node_910b3_4 = { ip = "192.168.1.204", port = 8888, template_name = "huawei_910b3" }
+#

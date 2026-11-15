@@ -1,0 +1,6 @@
+{
+  "source": "logs/model_latency.csv",
+  "sha256": "b212b0c73ae56b127bb6c1e49293dd1fca13cd45c34b7de2aa4486552963f63b",
+  "rounding": "f32(parse(original)) * f32(scale), rounded to f32; no runtime scaling",
+  "rows": 1760
+}

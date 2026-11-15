@@ -1,0 +1,16 @@
+# Generated files and host-only settings.
+/target/
+/simulation-runs/
+/deployment/
+/task_sender_logs/
+/libtorch/
+/resource/models/
+/.cargo/
+/logs/*
+!/logs/model_latency.csv
+__pycache__/
+*.pyc
+*.log
+.env
+.env.*
+.DS_Store

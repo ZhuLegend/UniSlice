@@ -1,0 +1,39 @@
+{
+  "latency_csv": "../../logs/model_latency.csv",
+  "create_delay_ms": 15000,
+  "destroy_delay_ms": 15000,
+  "control_timeout_ms": 300000,
+  "inference_timeout_ms": 300000,
+  "batch_size_range": [
+    1,
+    32
+  ],
+  "models": [
+    "resnet18",
+    "resnet50",
+    "mobilenet",
+    "vgg16"
+  ],
+  "nodes": [
+    {
+      "name": "a100",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 5101,
+      "resource": {
+        "ce": 7,
+        "memory": 80
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "a100"
+    }
+  ],
+  "model_lifecycle": {
+    "load_ms": 1000,
+    "unload_ms": 100,
+    "overrides": []
+  },
+  "batching_config": "../../scripts/exper_config/4nv+4nv/scheduler.toml"
+}

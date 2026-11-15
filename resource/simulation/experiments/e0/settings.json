@@ -1,0 +1,31 @@
+{
+  "config": "current/configuration.json",
+  "long_cycle": true,
+  "phase_seconds": 360,
+  "seed": 20260923,
+  "noise_seed": 20260923,
+  "noise_cv": 0.1,
+  "input_batch_min": 1,
+  "input_batch_max": 32,
+  "warmup_seconds": 0,
+  "schedule_interval": 15,
+  "http_protocol": "http2",
+  "http_connections": 4,
+  "client_terminal_log": true,
+  "paper_multipliers": [
+    1,
+    8,
+    20
+  ],
+  "expected_requests": {
+    "1x": 14979,
+    "8x": 117845,
+    "20x": 295383
+  },
+  "expected_samples": {
+    "1x": 247564,
+    "8x": 1948764,
+    "20x": 4876957
+  },
+  "input_directory": "current"
+}

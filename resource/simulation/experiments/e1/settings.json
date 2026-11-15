@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "send_seconds": 30,
+  "seed": 20260923,
+  "execution_cv": 0.1,
+  "cases": [
+    "accurate",
+    "common_06",
+    "common_08",
+    "common_12",
+    "common_14"
+  ],
+  "input_directory": "current",
+  "freeze_initial_greedy": true,
+  "schedule_interval": 15,
+  "routing_snapshot_seconds": 1,
+  "expected_requests": 1483,
+  "expected_samples": 24408
+}

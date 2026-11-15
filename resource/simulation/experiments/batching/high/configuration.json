@@ -1,0 +1,37 @@
+{
+  "latency_csv": "execution-source.csv",
+  "create_delay_ms": 0,
+  "destroy_delay_ms": 0,
+  "control_timeout_ms": 300000,
+  "inference_timeout_ms": 300000,
+  "batch_size_range": [
+    1,
+    32
+  ],
+  "models": [
+    "resnet50",
+    "vgg19"
+  ],
+  "nodes": [
+    {
+      "name": "parent",
+      "kind": "nvidia",
+      "gpus": 1,
+      "port": 34301,
+      "resource": {
+        "ce": 7,
+        "memory": 80
+      },
+      "share_targets": [
+        "1g.10gb"
+      ],
+      "template_name": "full"
+    }
+  ],
+  "model_lifecycle": {
+    "load_ms": 0,
+    "unload_ms": 0,
+    "overrides": []
+  },
+  "batching_config": "batching-source.toml"
+}

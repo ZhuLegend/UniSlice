@@ -1,0 +1,14 @@
+{
+  "input_type": "Float",
+  "output_type": "Float",
+  "input_dim": [3, 224, 224],
+  "torch_model_config": {
+    "warm_up": false
+  },
+  "onnx_model_config": {
+    "optimize_level": 3,
+    "intra_thread": 4,
+    "use_parallel_execution": true,
+    "inter_thread": 4
+  }
+}

@@ -1,0 +1,47 @@
+[package]
+name = "worker"
+edition.workspace = true
+version.workspace = true
+
+[dependencies]
+latency_profile = { workspace = true, optional = true }
+# error handling
+snafu = { workspace = true }
+
+# workspace dependencies
+model = { workspace = true }
+utils = { workspace = true }
+
+tokio = { workspace = true, default-features = false, features = ["rt"] }
+
+# framework support
+tch = { workspace = true, optional = true }
+ort = { workspace = true, optional = true, default-features = false, features = ["download-binaries", "copy-dylibs", "load-dynamic"] }
+
+# serialize support
+serde = { workspace = true, features = ["derive"], optional = true }
+bincode = { workspace = true, optional = true }
+
+# tracing
+tracing = { workspace = true }
+
+# utils
+trait-variant = { workspace = true }
+
+rand = { workspace = true, optional = true }
+
+[build-dependencies]
+cc = "1.2"
+
+[features]
+torch = ["dep:tch", "model/torch"]
+onnx = ["dep:ort", "model/onnx"]
+half = ["ort?/half", "model/half"]
+
+serde = ["dep:serde", "model/serde"]
+bincode = ["dep:bincode", "model/bincode"]
+
+mock = ["dep:serde", "dep:latency_profile", "tokio/time", "rand"]
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "macros", "rt"] }

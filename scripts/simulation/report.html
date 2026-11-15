@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UniSlice · 仿真时间线</title>
+<style>
+.run-select{margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.run-select select{max-width:100%}.run-alert{margin-top:14px;padding:10px 12px;border-left:3px solid #bc7441;background:#fff2e7;color:#80461e;font-size:13px}.run-alert[hidden],.run-select[hidden]{display:none}
+:root{color-scheme:light;--page:#f7f8fa;--ink:#18232c;--muted:#596974;--line:#dce3e8;--panel:#fff;--accent:#1c526b;--soft:#edf3f6;--m0:#176b93;--m1:#ca6744;--m2:#438262;--m3:#865ba5;--m4:#ab831d;--m5:#b65077;--m6:#438e91;--m7:#776452}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}main{max-width:1480px;margin:auto;padding:32px 38px 48px}h1,h2,p{margin:0}h1{font-size:29px;font-weight:600;letter-spacing:-.6px;margin:5px 0 7px}h2{font-size:16px;font-weight:600}button,input,select{font:inherit}select,input{border:1px solid #c8d2da;border-radius:5px;background:var(--panel);color:var(--ink);padding:6px 9px}select:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}button{cursor:pointer}a{color:var(--accent)}.eyebrow{font-size:11px;font-weight:600;letter-spacing:1.5px;color:var(--muted)}.head{display:flex;justify-content:space-between;gap:25px;align-items:flex-start}.stamp{text-align:right;color:var(--muted);font-size:12px;padding-top:7px;max-width:370px;overflow-wrap:anywhere}.tag{display:inline-block;border:1px solid #cad7df;border-radius:4px;padding:2px 8px;margin-bottom:5px;color:var(--accent);background:var(--panel)}.description{color:var(--muted);max-width:880px}.toolbar{display:flex;gap:24px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:24px 0 0;padding:13px 0}.toolbar label{display:flex;align-items:center;gap:9px}.hint{color:var(--muted);font-size:12px}.model-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:17px 0 22px}.model-control{display:flex;align-items:center;gap:7px;min-width:0;flex-wrap:wrap}.model-control .name{font-weight:500;flex:1;min-width:76px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;flex-shrink:0}.model-control input[type=number]{width:76px;text-align:right;padding:4px 6px}.model-control input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px;margin:0}.plots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.plot{background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:16px 17px 11px;min-width:0}.plot-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:3px}.num{color:var(--muted);font-size:12px;margin-right:8px;font-weight:400}.unit{font-size:12px;color:var(--muted)}.plot-note{font-size:12px;color:var(--muted);margin:0 0 3px}.plot svg{display:block;width:100%;height:254px;overflow:visible;touch-action:pan-y}.plot svg text{font-size:11px;fill:var(--muted)}.plot svg .axis-title{font-size:12px}.plot svg .line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.hover-line{stroke:#71818c;stroke-width:1;stroke-dasharray:3 3;pointer-events:none}.chart-hit{fill:transparent}.legend-strip{display:flex;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:12px 0 21px}.dash-key{display:inline-block;width:16px;border-top:1px dashed #8494a0;vertical-align:middle;margin-right:5px}.square{display:inline-block;width:10px;height:10px;background:#eef1f3;margin-right:5px}.reading{min-height:34px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 10px;color:var(--muted);font-size:12px}.reading strong{color:var(--ink);font-weight:500}#hover{background:#172935;color:#fff;border-radius:6px;padding:11px 13px;position:fixed;pointer-events:none;z-index:10;min-width:210px;font-size:12px;box-shadow:0 5px 16px #17293524}#hover[hidden]{display:none}.hover-row{display:flex;gap:8px;justify-content:space-between;margin-top:5px}.hover-row span:first-child{display:flex;align-items:center;gap:6px}.hover-heading{border-bottom:1px solid #ffffff35;padding-bottom:5px;margin-bottom:4px}table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;text-align:right}th,td{padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-weight:500;font-size:12px}th:first-child,td:first-child{text-align:left;padding-left:0}td:last-child,th:last-child{padding-right:0}.table-wrap{overflow-x:auto;margin:7px 0 22px}.table-model{display:flex;align-items:center;gap:8px}.method{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;border-top:1px solid var(--line);padding-top:20px;color:var(--muted);font-size:12px}.method h3{color:var(--ink);font-size:13px;font-weight:500;margin:0 0 6px}.method p+p{margin-top:5px}.foot{font-size:11px;color:var(--muted);overflow-wrap:anywhere;margin-top:24px}.slo-note{margin-top:7px;font-size:12px;color:var(--muted)}.evidence{font-size:12px;color:var(--muted);margin-top:5px}button.plain{border:1px solid var(--line);border-radius:4px;background:var(--panel);padding:5px 9px;color:var(--ink)}.toolbar .right{margin-left:auto;display:flex;align-items:center;gap:10px}.empty-note{font-size:12px;fill:var(--muted)}
+@media(max-width:1050px){main{padding:25px}.model-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.plots{gap:14px}.plot{padding:13px 12px 8px}.stamp{max-width:260px}.method{gap:18px}}
+@media(max-width:720px){main{padding:20px 15px}.head{display:block}.stamp{text-align:left;max-width:none;padding-top:10px}.plots{grid-template-columns:1fr}.toolbar{gap:12px 18px;margin-top:19px}.toolbar .right{margin-left:0}.model-controls{column-gap:16px}h1{font-size:24px}.method{grid-template-columns:1fr;gap:14px}.plot svg{height:240px}.plot-header{flex-wrap:wrap;gap:3px}.model-control input[type=number]{width:68px}}
+@media(max-width:400px){.model-controls{grid-template-columns:1fr}.toolbar label{width:100%;justify-content:space-between}.model-control .name{min-width:110px}}
+@media print{body{background:white}main{padding:15px}.toolbar button{display:none}.plot{break-inside:avoid}.model-control input{border:0}.stamp{font-size:10px}#hover{display:none!important}.method{break-inside:avoid}}
+</style>
+</head>
+<body>
+<main id="timeline-report">
+  <header class="head">
+    <div>
+      <div class="eyebrow">UNISLICE / SIMULATION TRACE</div>
+      <h1 id="title">仿真运行时间线</h1>
+      <p class="description" id="description"></p>
+      <p class="evidence" id="evidence"></p>
+    </div>
+    <div class="stamp"><span class="tag">实际运行记录</span><div id="run-name"></div><div id="run-date"></div></div>
+  </header>
+  <label class="run-select" id="run-picker" hidden>查看运行 <select id="scenario" aria-label="选择运行记录"></select></label>
+  <div class="run-alert" id="run-alert" role="status" hidden></div>
+  <div class="run-alert" id="resource-alert" role="status" hidden></div>
+  <section class="toolbar" aria-label="统计与显示设置">
+    <label>统计窗口 <select id="window"><option value="1">1 秒</option><option value="2">2 秒</option><option value="5" selected>5 秒</option><option value="10">10 秒</option><option value="15">15 秒</option></select></label>
+    <label>流量单位 <select id="rate-unit"><option value="requests">请求 / 秒</option><option value="samples">样本 / 秒</option></select></label>
+    <label>资源单位 <select id="resource-unit"><option value="slices">最小切片单元</option><option value="cards">整卡份额</option></select></label>
+    <div class="right"><button class="plain" id="download" type="button">导出当前窗口数据</button></div>
+  </section>
+  <div class="slo-note" id="slo-note"></div><label class="run-select">统一 SLO <select id="slo-preset"><option value="250">论文 · 250 ms</option><option value="400">论文 · 400 ms</option><option value="200">调试 · 200 ms</option></select></label>
+  <section class="model-controls" id="models" aria-label="模型与 SLO 阈值"></section>
+  <div class="reading"><span id="cursor-info" aria-live="polite">移动到任一图表，同步查看相同时刻；点击可固定。</span><span id="range-info"></span></div>
+  <section class="plots" id="plots" aria-label="随时间变化的基准图"></section>
+  <div class="legend-strip"><span><span class="dash-key"></span>调度应用完成</span><span><span class="square"></span>停止发送后的排空阶段</span><span>资源灰线：已预留但尚未绑定模型</span></div>
+  <section id="overhead-section" hidden>
+    <h2>各负载运行概览</h2>
+    <p class="slo-note">每档独立初始化。总耗时包含启动、发送、排空和资源关闭，未包含编译。全链路 SLO 从计划到达至收到完整结果计算，分母包含所有生成的请求；旧运行缺少该记录时显示 —。下方另列服务端口径。</p>
+    <div class="table-wrap"><table><thead><tr><th>基准</th><th>每模型基准速率</th><th>完成 / 生成</th><th>初始化</th><th>发送</th><th>排空</th><th>资源关闭</th><th>总耗时</th><th>全链路 250ms</th><th>全链路 400ms</th></tr></thead><tbody id="run-summary"></tbody></table></div>
+    <h2>请求失败与入口预算核对</h2>
+    <p class="slo-note">系统截止失败表示请求未在等待上限内完成，仍计为 SLO 未达成；客户端超时与连接错误单独列出。入口预算只决定能承载多少在途请求，不增加计算资源。旧记录缺少字段时显示 —。</p>
+    <div class="table-wrap"><table><thead><tr><th>基准 / 实验用途</th><th>发送端失败 / 未完成</th><th>服务端失败 / 未完成</th><th>失败原因及数量</th><th>系统 / 客户端截止</th><th>在途入口上限</th><th>每连接请求上限</th></tr></thead><tbody id="failure-summary"></tbody></table></div>
+    <h2>切换时的调度开销</h2>
+    <p class="slo-note">橙色竖线表示输入速率切换。算法决策与配置应用分开展示；配置应用包含等待在途推理、模型切换，以及实际发生的切片创建/销毁。</p>
+    <div class="plots" id="overhead-plots"></div>
+    <h2>不同负载倍数 · 切换响应比较</h2>
+    <p class="slo-note">分别展示切换后的首轮，以及开始于切换 5 秒后、速率窗口已完整更新的首轮。等待时间包含周期采样延迟；应用成功不等于 SLO 恢复。未完成周期不填入推测值。模型加载、卸载及在途等待为各 worker 的累计时间，可并行发生，因此不能相加作为调度墙钟时间。“积压且无 worker”记录移除最后一个 worker 时队列非空的次数，不等于丢失请求数；缺少旧版观测日志时显示空值。</p>
+    <div class="table-wrap"><table><thead><tr><th>基准</th><th>切换 / 时刻</th><th>观测周期</th><th>等待调度</th><th>算法决策</th><th>配置应用</th><th>切换至应用完成</th><th>创建 / 销毁</th><th>加载次数 / 累计秒</th><th>卸载次数 / 累计秒</th><th>在途等待累计秒</th><th>积压且无 worker</th><th>状态</th></tr></thead><tbody id="switch-summary"></tbody></table></div>
+    <h2>同一运行 · 两档论文 SLO</h2>
+    <p class="slo-note">全链路从请求的计划到达时刻算起，分母包含所有生成的请求及发送失败；服务端从实际接收时刻算起。时间曲线使用服务端口径，旧运行缺少全链路记录时显示 —。</p>
+    <div class="table-wrap"><table><thead><tr><th>基准</th><th>模型</th><th>全链路 250 ms</th><th>全链路 400 ms</th><th>服务端 250 ms</th><th>服务端 400 ms</th><th>生成 / 接收请求</th></tr></thead><tbody id="paper-slo-summary"></tbody></table></div>
+  </section>
+  <section id="stability-section" hidden>
+    <h2>长周期稳定性</h2>
+    <p class="slo-note" id="stability-note"></p>
+    <div class="plots" id="stability-plots"></div>
+    <h2 style="margin-top:20px">各阶段：切换瞬态与后半段</h2>
+    <p class="slo-note">前 120 秒与之后的区间分别统计；“后半段”不预设系统已经恢复稳定。空窗口显示 —。</p>
+    <div class="table-wrap"><table><thead><tr><th>阶段</th><th>请求数</th><th>250ms / 400ms</th><th>P99</th><th>前120s · 250ms</th><th>后续 · 250ms</th><th>后续 · P99</th></tr></thead><tbody id="phase-summary"></tbody></table></div>
+  </section>
+  <h2>按模型汇总</h2>
+  <p class="slo-note">达成率按请求计数；括号为满足 SLO 的请求数 / 已可判定请求数。无请求的窗口留空。</p>
+  <div class="table-wrap"><table><thead><tr><th>模型</th><th>到达请求</th><th>完成请求</th><th>失败 / 未完成</th><th>SLO 达成率</th><th>JCT 中位数</th><th>JCT P95</th><th>SLO 阈值</th></tr></thead><tbody id="summary"></tbody></table></div>
+  <section class="method" aria-label="统计口径">
+    <div><h3>请求与完成速率</h3><p>到达按服务端接收时间归入窗口，完成按成功返回时间归入窗口；除以窗口实际长度。一个请求可能包含多个样本，可切换单位。</p><p>时间零点为测量开始，已排除初始切片创建和预热。资源来自模型绑定与释放事件，表示分配量，不是瞬时 GPU 利用率。</p></div>
+    <div><h3>SLO 按到达窗口计算</h3><p>JCT = 服务端完成时间 − 接收时间，包含排队、组批和执行。某窗口的达成率由该窗口到达的请求最终结果计算；成功且 JCT 不超过阈值才算达成。</p><p>失败、已超时未完成均算未达成。观察结束时尚未到期限的请求暂不入分母；这类请求数量单独显示。SLO 比例是回看统计，不是当时已经知道的结果。</p></div>
+    <div><h3>资源与实验范围</h3><p id="resource-method"></p><p id="lifecycle-method"></p><p>CSV 提供平均调用耗时；执行波动设置见上方，属于参数化假设，未按真实设备尾部分布校准。输入输出仅携带样本数，未建模数据处理成本和完整硬件干扰。曲线来自此次运行，不是与其他调度器的性能比较。</p></div>
+  </section>
+  <footer class="foot" id="provenance"></footer>
+</main>
+<div id="hover" role="tooltip" hidden></div>
+<script id="data" type="application/json">__REPORT_DATA__</script>
+<script>__METRICS_JS__</script>
+<script>
+(()=>{
+'use strict';
+const DATA=JSON.parse(document.getElementById('data').textContent);
+const RUNS=Array.isArray(DATA)?DATA:[DATA];
+const selectedRun=Math.max(0,Math.min(RUNS.length-1,Number(new URLSearchParams(location.search).get('scenario'))||0));
+const D=RUNS[selectedRun];
+const root=document.getElementById('timeline-report'), byId=id=>document.getElementById(id);
+const ns='http://www.w3.org/2000/svg', colors=D.models.map((_,i)=>`var(--m${i%8})`);
+const visible=D.models.map(()=>true), thresholds=D.models.map(()=>D.workload?250:200);
+let windowSeconds=5, sampleRates=false, cardUnits=false, stats, charts=[], pinned=false, cursor=null;
+const fmt=(v,d=1)=>v===null||!Number.isFinite(v)?'—':v.toLocaleString('zh-CN',{maximumFractionDigits:d});
+const el=(name,attrs={},parent)=>{let node=document.createElementNS(ns,name);for(const [k,v]of Object.entries(attrs))node.setAttribute(k,v);if(parent)parent.append(node);return node;};
+const text=(s,x,y,parent,attrs={})=>{let node=el('text',{x,y,...attrs},parent);node.textContent=s;return node;};
+const put=(id,value)=>byId(id).textContent=value;
+if(RUNS.length>1){byId('run-picker').hidden=false;RUNS.forEach((run,i)=>{const option=document.createElement('option');option.value=i;option.textContent=run.workload?`${run.workload.multiplier}× · ${run.run}`:`${run.run} · ${run.arguments.rate}–${run.arguments.rate_max??run.arguments.rate} 样本/秒/模型`;byId('scenario').append(option);});byId('scenario').value=selectedRun;byId('scenario').addEventListener('change',e=>{const url=new URL(location.href);url.searchParams.set('scenario',e.target.value);location.href=url.href;});}
+put('title',D.resources.length===1&&D.resources[0].kind==='nvidia'?'A100 动态负载 · 运行时间线':'异构仿真 · 运行时间线');
+put('description',`${D.models.length} 个模型 · ${D.resources.map(n=>n.kind==='nvidia'?'A100':'Huawei B3').join(' + ')} · ${D.sending_seconds} 秒发送窗口 · 每 ${D.arguments.cycle_seconds} 秒改变一次负载`);
+put('evidence',`${fmt(D.summary.completed_tasks,0)} / ${fmt(D.summary.received_tasks,0)} 请求完成 · ${D.summary.failed_tasks} 失败 · ${D.summary.pending_tasks} 未完成 · 目标速率 ${D.arguments.rate}–${D.arguments.rate_max??D.arguments.rate} 样本/秒/模型`);
+const discrepancy=D.client&&D.client.sent_tasks!==D.summary.received_tasks;
+if(D.summary.failed_tasks||D.summary.pending_tasks||D.client?.failed_tasks||discrepancy){
+  byId('run-alert').hidden=false;
+  put('run-alert',`本次运行存在失败或未完成：服务端 ${D.summary.failed_tasks} 个失败、${D.summary.pending_tasks} 个未完成。${D.client?`发送端生成 ${fmt(D.client.sent_tasks,0)} 个请求，其中 ${fmt(D.client.failed_tasks,0)} 个失败；服务端记录 ${fmt(D.summary.received_tasks,0)} 个到达。`:''}时间曲线只覆盖服务端已接收请求。${D.client?.transport?.models?'两档 SLO 汇总另列全链路口径，包含发送失败。':'缺少全链路记录，不能将服务端达成率直接解释为目标负载达成率。'}`);
+}
+put('slo-note',D.workload?'论文 Table II 使用统一的 250 / 400 ms。下方允许临时调整；两档论文阈值的汇总始终保留。':'旧运行的 200 ms 是调试阈值，可切换论文阈值重新统计。');
+byId('slo-preset').value=String(thresholds[0]);
+if(D.workload){
+const pools=new Set(D.config.nodes.map(n=>n.template_name||n.name));
+put('description',`${D.workload.multiplier}× 基准 · ${D.config.nodes.length} 个资源节点 / ${pools.size} 个逻辑调度池 · ${D.resources.map(r=>`${r.capacity} 个 ${r.unit} 单元`).join(' + ')} · ${D.sending_seconds} 秒 · ${D.workload.phases.length} 阶段 / ${D.workload.phases.length-1} 次切换${D.config.batching_config?'':' · 历史配置（尚未对齐分组和批处理策略）'}`);
+const batchRange=D.workload?.batch_size_range??[D.workload?.batch_size??D.arguments.batch,D.workload?.batch_size??D.arguments.batch];
+const noiseCV=D.config.execution_noise?.cv??0;
+put('evidence',`${fmt(D.summary.completed_tasks,0)} / ${fmt(D.summary.received_tasks,0)} 请求完成 · 1× = 每模型 12.5 ${D.workload?.rate_unit==='samples/s'?'样本':'请求'}/秒 · 输入 batch=${batchRange.join('–')} · 执行时间 CV=${fmt(noiseCV*100,0)}%（未标定假设）`);
+put('provenance',D.workload.provenance);
+}
+put('run-name',D.run);put('run-date',D.started_at);
+if(D.resource_warnings?.length){
+ byId('resource-alert').hidden=false;
+ put('resource-alert','资源曲线不可用：失败的创建尝试及同 ID 重试使 worker 绑定日志无法完整配对，因此不绘制可能重复计数的分配量。请求和调度统计仍保留。详情：'+D.resource_warnings.join('；'));
+}
+if(D.batching_policy){
+const p=D.batching_policy;
+put('evidence',byId('evidence').textContent+` · 批处理 ${p.type}${p.timeout?` / ${p.timeout.secs*1000+p.timeout.nanos/1e6}ms`:''}`);
+}
+put('range-info',`共同时间轴：0–${fmt(D.duration)} 秒（含排空）`);
+put('resource-method',D.resources.map(n=>`${n.name}：1 个 ${n.unit} 单元 = 1/${n.units_per_card} 张卡，资源池共 ${n.capacity} 单元。`).join(' ')+' 不同卡型分开展示，不将份额相加解释为相同性能。');
+put('lifecycle-method',`执行模式：${D.config.worker_backend==='in_process'?'历史节点内 CSV worker':'独立子进程 worker'}。创建 ${D.config.create_delay_ms/1000}s、销毁 ${D.config.destroy_delay_ms/1000}s。${D.config.model_lifecycle?`默认模型加载 ${D.config.model_lifecycle.load_ms/1000}s（含预热）、卸载 ${D.config.model_lifecycle.unload_ms/1000}s；均为可覆盖的仿真假设。`:'历史运行未建模模型加载、卸载开销。'}复用同一模型不收费；仅换模型不收取切片重建费用。启动等待全部模型可服务，初始化不计入请求 SLO。`);
+put('provenance',`${D.workload?D.workload.provenance+' · ':''}数据：${D.run} · 代码 ${D.revision.slice(0,12)}（含未提交改动，详见 manifest.json） · CSV SHA-256 ${D.csv_sha256}`);
+D.models.forEach((model,i)=>{
+  const wrap=document.createElement('div');wrap.className='model-control';
+  const toggle=document.createElement('input');toggle.type='checkbox';toggle.checked=true;toggle.setAttribute('aria-label',`显示 ${model}`);
+  const swatch=document.createElement('span');swatch.className='dot';swatch.style.background=colors[i];
+  const label=document.createElement('label');label.className='name';label.textContent=model;label.htmlFor=`slo-${i}`;
+  const input=document.createElement('input');input.type='number';input.min='1';input.max='600000';input.step='10';input.value=String(thresholds[i]);input.id=`slo-${i}`;input.setAttribute('aria-label',`${model} SLO 毫秒`);
+  const unit=document.createElement('span');unit.className='hint';unit.textContent='ms';
+  wrap.append(toggle,swatch,label,input,unit);byId('models').append(wrap);
+  toggle.addEventListener('change',()=>{visible[i]=toggle.checked;redraw();});
+  input.addEventListener('input',()=>{if(Number(input.value)>0){thresholds[i]=Number(input.value);redraw();}});
+});
+const descriptors=[{key:'arrival',title:'到达速率',note:'每个时间窗口内，服务端实际收到的请求。'},
+  ...D.resources.map((r,i)=>({key:`resource-${i}`,title:`模型占用资源 · ${r.name}`,note:`堆叠展示各模型分配量；1 单元 = ${r.unit} = 1/${r.units_per_card} 卡。`,resource:r})),
+  {key:'completion',title:'完成速率',note:'按完成时刻统计；排空阶段仍可能有输出。'},
+  {key:'slo',title:'SLO 达成率',note:'按到达窗口归组，失败和超时计入未达成。'},
+  {key:'inflight',title:'服务端在途请求',note:'窗口结束时，累计到达减累计完成与失败；包含排队和执行，不是 GPU 利用率。'},
+  {key:'failure',title:'失败速率',note:'按失败终结时刻统计，与到达窗口的 SLO 口径分开。原因见下方核对表。'}];
+descriptors.forEach((d,i)=>{
+  const section=document.createElement('section');section.className='plot';
+  const header=document.createElement('div');header.className='plot-header';
+  const h=document.createElement('h2'), num=document.createElement('span');num.className='num';num.textContent=String(i+1).padStart(2,'0');h.append(num,document.createTextNode(d.title));
+  const unit=document.createElement('span');unit.className='unit';header.append(h,unit);
+  const note=document.createElement('p');note.className='plot-note';note.textContent=d.note;
+  const svg=el('svg',{role:'img','aria-label':d.title});section.append(header,note,svg);byId('plots').append(section);
+  charts.push({...d,section,svg,unit});
+});
+function niceMax(v){if(v<=0)return 1;const raw=v/4,p=Math.pow(10,Math.floor(Math.log10(raw)));const step=[1,2,2.5,5,10].map(n=>n*p).find(n=>n>=raw);return Math.ceil(v/step)*step;}
+function resourceAt(resource,t){let a=0,b=resource.points.length-1;while(a<b){let mid=Math.ceil((a+b)/2);if(resource.points[mid][0]<=t)a=mid;else b=mid-1;}return resource.points[a].slice(1);}
+function linePath(values,x,y){let path='',active=false;for(const v of values){if(v.value===null){active=false;continue;}if(!active){path+=`M${x(v.start)},${y(v.value)}`;active=true;}else path+=`V${y(v.value)}`;path+=`H${x(v.end)}`;}return path;}
+function valuesFor(chart,i){
+  if(chart.resource){let p=chart.resource.points;const divisor=cardUnits?chart.resource.units_per_card:1;return p.slice(0,-1).map((row,j)=>({start:row[0],end:p[j+1][0],value:row[i+1]/divisor}));}
+  const field={arrival:'arrivalRate',completion:'completionRate',slo:'slo',inflight:'inFlight',failure:'failureRate'}[chart.key];
+  return stats.series[i].map(b=>({start:b.start,end:b.end,value:b[field]}));
+}
+function draw(chart){
+  const svg=chart.svg;svg.replaceChildren();
+  const width=Math.floor(svg.getBoundingClientRect().width),height=width<360?240:254;
+  svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.style.height=`${height}px`;
+  const L=52,R=13,T=15,B=42,pw=width-L-R,ph=height-T-B;
+  const selected=D.models.map((_,i)=>i).filter(i=>visible[i]);
+  let yMax;if(chart.resource)yMax=chart.resource.capacity/(cardUnits?chart.resource.units_per_card:1);else if(chart.key==='slo')yMax=100;else yMax=niceMax(Math.max(0,...selected.flatMap(i=>valuesFor(chart,i).map(v=>v.value??0))));
+  const x=t=>L+t/D.duration*pw,y=v=>T+ph-v/yMax*ph;
+  chart.geometry={x,y,L,T,pw,ph,width,height,yMax};
+  chart.unit.textContent=chart.resource?(cardUnits?'整卡份额':`${chart.resource.unit} 单元`):chart.key==='slo'?'达成率 %':chart.key==='inflight'?'请求数（窗口末）':sampleRates?'样本 / 秒':'请求 / 秒';
+  el('title',{},svg).textContent=chart.title;
+  el('desc',{},svg).textContent=chart.note+' 同色代表同一模型，底部汇总表提供具体数值。';
+  if(D.duration>D.sending_seconds)el('rect',{x:x(D.sending_seconds),y:T,width:x(D.duration)-x(D.sending_seconds),height:ph,fill:'#eef1f3'},svg);
+  const ticks=chart.resource&&!cardUnits?Array.from({length:Math.ceil(yMax)+1},(_,i)=>i).filter((v,i,a)=>i===0||i===a.length-1||i%Math.ceil(yMax/8)===0):Array.from({length:5},(_,i)=>yMax*i/4);
+  ticks.forEach(v=>{el('line',{x1:L,x2:width-R,y1:y(v),y2:y(v),stroke:'#e5eaf0','stroke-width':1},svg);text(fmt(v,2),L-9,y(v)+4,svg,{'text-anchor':'end'});});
+  const xticks=width<420?3:5;for(let i=0;i<=xticks;i++){const t=D.duration*i/xticks;text(fmt(t,0),x(t),T+ph+20,svg,{'text-anchor':i===0?'start':i===xticks?'end':'middle'});}
+  text('相对测量开始时间（秒）',L+pw/2,height-4,svg,{'text-anchor':'middle',class:'axis-title'});
+  for(const s of D.schedules)if(s[1]<=D.duration)el('line',{x1:x(s[1]),x2:x(s[1]),y1:T,y2:T+ph,stroke:'#aab6bf','stroke-width':1,'stroke-dasharray':'3 5'},svg);
+  for(const phase of (D.workload?.phases||[]).slice(1))el('line',{x1:x(phase.start_seconds),x2:x(phase.start_seconds),y1:T,y2:T+ph,stroke:'#b66c24','stroke-width':1.5,'stroke-dasharray':'6 3'},svg);
+  el('rect',{x:L,y:T,width:pw,height:ph,fill:'none',stroke:'#dce3e8'},svg);
+  if(chart.resource){
+    const ids=[...selected,D.models.length],points=chart.resource.points,divisor=cardUnits?chart.resource.units_per_card:1;
+    ids.forEach((i,rank)=>{
+      const lower=row=>ids.slice(0,rank).reduce((sum,j)=>sum+row[j+1],0)/divisor;
+      let top='',bottom='';
+      points.slice(0,-1).forEach((row,j)=>{
+        const hi=lower(row)+row[i+1]/divisor;
+        top+=(j?'L':'M')+`${x(row[0])},${y(hi)}L${x(points[j+1][0])},${y(hi)}`;
+      });
+      for(let j=points.length-2;j>=0;j--){const lo=lower(points[j]);bottom+=`L${x(points[j+1][0])},${y(lo)}L${x(points[j][0])},${y(lo)}`;}
+      el('path',{d:top+bottom+'Z',fill:colors[i]||'#83919b','fill-opacity':'.24','data-model':D.models[i]||'unassigned'},svg);
+      el('path',{d:top,stroke:colors[i]||'#83919b',class:'line','stroke-width':'1.2'},svg);
+      const last=points.at(-1),v=last[i+1]/divisor;
+      if(v/yMax*ph>17)text(`${D.models[i]||'未绑定'} · ${fmt(v,3)}`,width-R-7,y(lower(last)+v/2)+4,svg,{'text-anchor':'end',style:'fill:var(--ink)'});
+    });
+  }else selected.forEach(i=>el('path',{d:linePath(valuesFor(chart,i),x,y),stroke:colors[i],class:'line','data-model':D.models[i]},svg));
+  if(!selected.length)text('请勾选至少一个模型',L+pw/2,T+ph/2,svg,{'text-anchor':'middle',class:'empty-note'});
+  chart.guide=el('line',{x1:L,x2:L,y1:T,y2:T+ph,class:'hover-line',visibility:'hidden'},svg);
+  chart.markers=el('g',{'pointer-events':'none'},svg);
+  const hit=el('rect',{x:L,y:T,width:pw,height:ph,class:'chart-hit','data-chart-hit':'true'},svg);
+  const timeOf=e=>{let b=svg.getBoundingClientRect();return Math.max(0,Math.min(D.duration,(e.clientX-b.left-L)/pw*D.duration));};
+  hit.addEventListener('pointermove',e=>{if(!pinned)updateCursor(timeOf(e),chart,e);});
+  hit.addEventListener('click',e=>{pinned=!pinned;updateCursor(timeOf(e),chart,e);});
+  hit.addEventListener('pointerleave',()=>{if(!pinned){cursor=null;byId('hover').hidden=true;charts.forEach(c=>{c.guide.setAttribute('visibility','hidden');c.markers.replaceChildren();});}});
+}
+function currentValues(chart,t){
+  if(chart.resource)return resourceAt(chart.resource,t).map(v=>v/(cardUnits?chart.resource.units_per_card:1));
+  const bi=Math.min(stats.series[0].length-1,Math.floor(t/windowSeconds));
+  return stats.series.map(s=>s[bi][chart.key==='arrival'?'arrivalRate':chart.key==='completion'?'completionRate':'slo']);
+}
+function updateCursor(t,active,event){
+  cursor=t;
+  const bi=Math.min(stats.series[0].length-1,Math.floor(t/windowSeconds));
+  const bucket=stats.series[0][bi];
+  put('cursor-info',`${pinned?'已固定':'当前'} ${fmt(t,2)}s · 统计窗口 [${fmt(bucket.start)}, ${fmt(bucket.end)}${bi===stats.series[0].length-1?']':')'} 秒${pinned?' · 再次点击取消固定':''}`);
+  for(const chart of charts){
+    const {x,y}=chart.geometry;chart.guide.setAttribute('x1',x(t));chart.guide.setAttribute('x2',x(t));chart.guide.setAttribute('visibility','visible');chart.markers.replaceChildren();
+    let base=0;
+    currentValues(chart,t).forEach((v,i)=>{if(i<D.models.length&&visible[i]&&v!==null){const marker=chart.resource?base+v/2:v;if(!chart.resource||v>0)el('circle',{cx:x(t),cy:y(marker),r:3.5,fill:colors[i],stroke:'#fff','stroke-width':1.3},chart.markers);if(chart.resource)base+=v;}});
+  }
+  if(!active||!event)return;
+  const tip=byId('hover');tip.replaceChildren();
+  const heading=document.createElement('div');heading.className='hover-heading';heading.textContent=`${active.title} · ${fmt(t,2)}s`;tip.append(heading);
+  currentValues(active,t).forEach((v,i)=>{
+    if(i<D.models.length&&!visible[i])return;
+    if(i===D.models.length&&v===0)return;
+    const row=document.createElement('div');row.className='hover-row';const name=document.createElement('span'),dot=document.createElement('i');dot.className='dot';dot.style.background=colors[i]||'#98a5ad';name.append(dot,document.createTextNode(D.models[i]||'未绑定 / 重建中'));
+    const value=document.createElement('span');value.textContent=fmt(v,active.resource&&cardUnits?3:1)+(active.key==='slo'&&v!==null?'%':'');
+    if(active.key==='slo'&&i<D.models.length){const b=stats.series[i][bi];value.textContent+=` (${b.hits}/${b.eligible})`+(b.unresolved?` · ${b.unresolved} 待判定`:'');}
+    row.append(name,value);tip.append(row);
+  });
+  tip.hidden=false;const bounds=tip.getBoundingClientRect();tip.style.left=`${Math.max(8,Math.min(innerWidth-bounds.width-8,event.clientX+16))}px`;tip.style.top=`${Math.max(8,Math.min(innerHeight-bounds.height-8,event.clientY+14))}px`;
+}
+function updateSummary(){
+  byId('summary').replaceChildren();
+  D.models.forEach((model,i)=>{
+    const r=stats.totals[i],row=document.createElement('tr');if(!visible[i])row.style.opacity='.45';
+    const first=document.createElement('td'),label=document.createElement('span');label.className='table-model';const dot=document.createElement('i');dot.className='dot';dot.style.background=colors[i];label.append(dot,document.createTextNode(model));first.append(label);row.append(first);
+    const values=[fmt(r.arrivals,0),fmt(r.completed,0),`${r.failed} / ${r.pending}`,`${fmt(r.eligible?r.hits/r.eligible*100:null)}${r.eligible?'%':''} (${r.hits}/${r.eligible})`,`${fmt(TimelineMetrics.percentile(r.latencies,.5))} ms`,`${fmt(TimelineMetrics.percentile(r.latencies,.95))} ms`,`${fmt(thresholds[i],0)} ms`];
+    values.forEach(v=>{const cell=document.createElement('td');cell.textContent=v;row.append(cell);});byId('summary').append(row);
+  });
+}
+function redraw(){stats=TimelineMetrics.aggregate(D,windowSeconds,thresholds,sampleRates);charts.forEach(draw);updateSummary();if(cursor!==null)updateCursor(cursor);byId('hover').hidden=true;}
+byId('slo-preset').addEventListener('change',e=>{thresholds.fill(Number(e.target.value));D.models.forEach((_,i)=>byId(`slo-${i}`).value=e.target.value);redraw();});
+byId('window').addEventListener('change',e=>{windowSeconds=Number(e.target.value);redraw();});
+byId('rate-unit').addEventListener('change',e=>{sampleRates=e.target.value==='samples';redraw();});
+byId('resource-unit').addEventListener('change',e=>{cardUnits=e.target.value==='cards';redraw();});
+byId('download').addEventListener('click',()=>{
+  const rows=[['model','window_start_s','window_end_s','arrival_rate','completion_rate','rate_unit','slo_threshold_ms','slo_hits','slo_denominator','slo_percent','unresolved']];
+  stats.series.forEach((series,i)=>series.forEach(b=>rows.push([D.models[i],b.start,b.end,b.arrivalRate,b.completionRate,sampleRates?'samples/s':'requests/s',thresholds[i],b.hits,b.eligible,b.slo??'',b.unresolved])));
+  const csv=rows.map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');
+  const url=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download=`${D.run}-${windowSeconds}s.csv`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+function addRow(id,values){const row=document.createElement('tr');for(const value of values){const td=document.createElement('td');td.textContent=value;row.append(td);}byId(id).append(row);}
+function drawOverheads(){
+ const available=(D.schedule_events||[]).map(c=>({...c,...TimelineMetrics.lifecycleForCycle(D,c)}));if(!D.workload||!available.length)return;
+ byId('overhead-section').hidden=false;byId('overhead-plots').replaceChildren();
+ for(const [field,title,unit,divisor] of [['decision_ms','算法决策耗时','毫秒',1],['apply_ms','配置应用耗时','秒',1000],['load_seconds','模型加载开销','累计 worker 秒',1],['unload_seconds','模型卸载开销','累计 worker 秒',1]]){
+  if((field==='load_seconds'||field==='unload_seconds')&&!D.observability?.model_lifecycle)continue;
+  const section=document.createElement('section');section.className='plot';const heading=document.createElement('h2');heading.textContent=title;section.append(heading);byId('overhead-plots').append(section);
+  const svg=el('svg',{role:'img','aria-label':title},section);const width=Math.max(280,section.clientWidth-36),height=235,L=54,T=15,W=width-L-15,H=175;
+  svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.style.height=`${height}px`;
+  const cycles=available.filter(c=>!c.initial&&c.start>=0&&c.start<=D.duration),max=niceMax(Math.max(0,...cycles.map(c=>c[field]/divisor))),x=t=>L+t/D.duration*W,y=v=>T+H-v/max*H;
+  for(let i=0;i<=4;i++){const v=max*i/4;el('line',{x1:L,x2:L+W,y1:y(v),y2:y(v),stroke:'#e5eaf0'},svg);text(fmt(v,3),L-7,y(v)+4,svg,{'text-anchor':'end'});const t=D.duration*i/4;text(fmt(t,0),x(t),T+H+20,svg,{'text-anchor':'middle'});}
+  text(unit,L,T-3,svg);text('调度开始时刻（秒）',L+W/2,height-4,svg,{'text-anchor':'middle'});
+  for(const phase of D.workload.phases.slice(1))el('line',{x1:x(phase.start_seconds),x2:x(phase.start_seconds),y1:T,y2:T+H,stroke:'#b66c24','stroke-dasharray':'6 3'},svg);
+  for(const c of cycles){const node=el('rect',{x:x(c.start)-3,y:y(c[field]/divisor),width:6,height:Math.max(1,T+H-y(c[field]/divisor)),fill:c.success?'#2b7180':'#b44236'},svg);el('title',{},node).textContent=`${fmt(c.start,2)}s · ${fmt(c[field]/divisor,3)} ${unit} · ${c.success?'成功':'失败'}`;}
+ }
+}
+function drawStability(){
+ const d=D.diagnostics;if(!d)return;
+ byId('stability-section').hidden=false;byId('stability-plots').replaceChildren();
+ const audit=d.resource_audit,host=d.host;
+ put('stability-note',`运行期创建尝试 ${Object.values(audit.runtime_creates).reduce((a,b)=>a+b,0)} 次、销毁开始 ${Object.values(audit.runtime_destroys).reduce((a,b)=>a+b,0)} 次；资源/计时日志核验异常 ${audit.violations.length} 项（失败路径的日志缺项不直接证明资源泄漏）。宿主 RSS 峰值 ${fmt(host.peak_rss_mib/1024,2)} GiB，包含历史请求记录和输入序列，不能解释为 GPU 显存。`);
+ const specs=[{title:'已预留切片数量 · 按规格',unit:'切片数（含创建/销毁中）',points:audit.profile_points,labels:audit.profiles},
+              {title:'宿主进程内存',unit:'RSS / GiB',points:host.points.map(p=>[p[0],p[1]/1024]),labels:['仿真进程与运行器']}];
+ for(const spec of specs){
+  if(!spec.points.length)continue;
+  const section=document.createElement('section');section.className='plot';const heading=document.createElement('h2');heading.textContent=spec.title;section.append(heading);byId('stability-plots').append(section);
+  const svg=el('svg',{role:'img','aria-label':spec.title},section),width=Math.max(280,section.clientWidth-36),height=260,L=54,T=24,W=width-L-12,H=175;
+  svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.style.height=`${height}px`;
+  const max=niceMax(spec.points.reduce((m,p)=>Math.max(m,...p.slice(1)),0)),x=t=>L+t/D.duration*W,y=v=>T+H-v/max*H;
+  for(let i=0;i<=4;i++){let v=max*i/4;el('line',{x1:L,x2:L+W,y1:y(v),y2:y(v),stroke:'#e5eaf0'},svg);text(fmt(v,2),L-7,y(v)+4,svg,{'text-anchor':'end'});let t=D.duration*i/4;text(fmt(t,0),x(t),T+H+18,svg,{'text-anchor':'middle'});}
+  text(spec.unit,L,12,svg);
+  for(const phase of D.workload.phases.slice(1))el('line',{x1:x(phase.start_seconds),x2:x(phase.start_seconds),y1:T,y2:T+H,stroke:'#b66c24','stroke-dasharray':'6 3'},svg);
+  spec.labels.forEach((label,i)=>{let path='';for(const p of spec.points){path+=(path?`H${x(p[0])}V${y(p[i+1])}`:`M${x(p[0])},${y(p[i+1])}`);}el('path',{d:path,fill:'none',stroke:colors[i%colors.length],'stroke-width':1.7},svg);});
+  const legend=document.createElement('p');legend.className='hint';spec.labels.forEach((label,i)=>{const s=document.createElement('span');s.textContent=`● ${label}  `;s.style.color=colors[i%colors.length];legend.append(s);});section.append(legend);
+ }
+}
+if(D.diagnostics){
+ for(const p of D.diagnostics.phases)addRow('phase-summary',[`${p.label} · ${p.start_seconds}–${p.end_seconds}s`,fmt(p.received,0),`${fmt(p.slo_percent['250'],2)}% / ${fmt(p.slo_percent['400'],2)}%`,`${fmt(p.p99_ms,0)}ms`,`${fmt(p.first_120s.slo_percent['250'],2)}%`,`${fmt(p.after_120s.slo_percent['250'],2)}%`,`${fmt(p.after_120s.p99_ms,0)}ms`]);
+ drawStability();
+}
+if(D.workload){
+ for(const run of RUNS.filter(r=>r.workload)){
+  for(const phase of run.workload.phases.slice(1)){
+   const next=run.workload.phases.find(p=>p.start_seconds>phase.start_seconds)?.start_seconds??run.sending_seconds;
+   for(const [label,delay] of [['切换后首轮',0],['完整新窗口',5]]){
+    const c=(run.schedule_events||[]).find(c=>!c.initial&&c.start>=phase.start_seconds+delay&&c.start<next);
+    const counts=['create_started','destroy_started'].map(event=>(run.lifecycle||[]).filter(e=>e.event===event&&c&&e.time>=c.start&&e.time<=c.end).length);
+    const modelCosts=c?TimelineMetrics.lifecycleForCycle(run,c):null;
+    addRow('switch-summary',[`${run.workload.multiplier}×`,`${phase.label||(phase.name==='vgg_double'?'VGG 翻倍':'恢复均衡')} · ${phase.start_seconds}s`,label,c?`${fmt(c.start-phase.start_seconds,3)}s`:'—',c?`${fmt(c.decision_ms,3)}ms`:'—',c?`${fmt(c.apply_ms/1000,3)}s`:'—',c?`${fmt(c.end-phase.start_seconds,3)}s`:'—',c?counts.join(' / '):'—',modelCosts&&run.observability?.model_lifecycle?`${modelCosts.loads} / ${fmt(modelCosts.load_seconds,3)}`:'—',modelCosts&&run.observability?.model_lifecycle?`${modelCosts.unloads} / ${fmt(modelCosts.unload_seconds,3)}`:'—',modelCosts&&run.observability?.drain?fmt(modelCosts.drain_seconds,3):'—',modelCosts&&run.observability?.drain?String(modelCosts.queue_gaps):'—',c?(c.success?'成功':'失败'):'尚无完成记录']);
+   }
+  }
+  const slo250=TimelineMetrics.aggregate(run,5,run.models.map(()=>250),false),slo400=TimelineMetrics.aggregate(run,5,run.models.map(()=>400),false);
+  const overall=threshold=>{const models=Object.values(run.client?.transport?.models??{}),offered=models.reduce((n,t)=>n+t.offered,0),hits=models.reduce((n,t)=>n+t[`slo_${threshold}_ms_hits`],0);return offered?`${fmt(hits/offered*100,2)}%`:'—';};
+  addRow('run-summary',[`${run.workload.multiplier}×`,`${fmt(12.5*run.workload.multiplier)} ${run.workload.rate_unit==='samples/s'?'样本':'请求'}/s`,`${fmt(run.summary.completed_tasks,0)} / ${fmt(run.client?.sent_tasks??null,0)}`,`${fmt(run.summary.startup_seconds,1)}s`,`${fmt(run.summary.sending_seconds,1)}s`,`${fmt(Math.max(0,run.summary.sending_and_drain_seconds-run.summary.sending_seconds),1)}s`,`${fmt(run.summary.shutdown_seconds??null,1)}s`,`${fmt(run.summary.total_wall_seconds,1)}s`,overall(250),overall(400)]);
+  const reasonNames={application_deadline:'系统截止',timeout:'客户端超时',http2_reset_limit:'连接重置上限',http2_connection_error:'HTTP/2 连接错误',sender_overflow:'入口溢出',drain_timeout:'排空取消',address_unavailable:'本地地址不足',connection_reset:'连接重置',no_serving_pool:'无可服务资源池',application_error:'系统返回错误',request_error:'未分类请求错误'};
+  const reasons=run.client?.transport?.failed_by_reason;
+  addRow('failure-summary',[`${run.workload.multiplier}×${run.analysis_role?.label?' · '+run.analysis_role.label:''}`,`${fmt(run.client?.failed_tasks??null,0)} / ${fmt(run.client?.pending_tasks??null,0)}`,`${fmt(run.summary.failed_tasks,0)} / ${fmt(run.summary.pending_tasks,0)}`,reasons?(Object.entries(reasons).map(([name,count])=>`${reasonNames[name]??name} ${fmt(count,0)}`).join('；')||'无'):'—',`${fmt(run.config.inference_timeout_ms/1000,0)}s / ${fmt(run.runtime?.client_request_timeout_seconds??null,0)}s`,fmt(run.runtime?.sender_max_in_flight??run.arguments.max_in_flight??null,0),fmt(run.runtime?.max_streams_per_connection??run.arguments.http2_max_streams??null,0)]);
+  run.models.forEach((model,i)=>{const a=slo250.totals[i],b=slo400.totals[i],client=run.client?.transport?.models?.[model];
+    const full=threshold=>client?.offered?`${fmt(client[`slo_${threshold}_ms_hits`]/client.offered*100,2)}%`:'—';
+    addRow('paper-slo-summary',[`${run.workload.multiplier}×`,model,full(250),full(400),`${fmt(a.eligible?a.hits/a.eligible*100:null,2)}%`,`${fmt(b.eligible?b.hits/b.eligible*100:null,2)}%`,`${fmt(client?.offered??null,0)} / ${fmt(a.arrivals,0)}`]);});
+ }
+ drawOverheads();
+}
+let previousWidth=0;new ResizeObserver(entries=>{const width=entries[0].contentRect.width;if(Math.abs(width-previousWidth)>1){previousWidth=width;redraw();drawOverheads();drawStability();}}).observe(root);
+redraw();
+window.reportReady=true;
+})();
+</script>
+</body>
+</html>

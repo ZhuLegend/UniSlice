@@ -1,0 +1,18 @@
+# Single-model service example; not a paper performance experiment.
+batch_size_range = [1, 32]
+batch_extractor_strategy = { type = "TimeoutProbabilitySplitAndSatisfy", timeout = { secs = 0, nanos = 8000000 }, inner = { threshold = 0.0, inner = {} } }
+
+[init_arrival_rate]
+resnet50 = 12.5
+
+[device_combinations.a100]
+type = "Nvidia"
+config.resource_template = { ce = 7, memory = 80 }
+config.share_targets = ["1g.10gb"]
+
+[remote_nodes.a100]
+ip = "127.0.0.1"
+port = 9000
+template_name = "a100"
+control_timeout_ms = 300000
+inference_timeout_ms = 300000

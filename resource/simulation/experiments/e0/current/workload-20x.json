@@ -1,0 +1,118 @@
+{
+  "name": "long-cycle-multi-slice",
+  "multiplier": 20,
+  "seed": 20260923,
+  "duration_seconds": 2160,
+  "initial_rates": {
+    "alexnet": 250.0,
+    "efficientnet": 250.0,
+    "mnasnet": 250.0,
+    "mobilenet": 250.0,
+    "resnet18": 250.0,
+    "resnet50": 250.0,
+    "vgg16": 250.0,
+    "vgg19": 250.0
+  },
+  "slo_ms": [
+    250,
+    400
+  ],
+  "batch_size_range": [
+    1,
+    32
+  ],
+  "rate_unit": "samples/s",
+  "phases": [
+    {
+      "start_seconds": 0,
+      "name": "balanced",
+      "label": "\u5747\u8861",
+      "rates": {
+        "alexnet": 250.0,
+        "efficientnet": 250.0,
+        "mnasnet": 250.0,
+        "mobilenet": 250.0,
+        "resnet18": 250.0,
+        "resnet50": 250.0,
+        "vgg16": 250.0,
+        "vgg19": 250.0
+      }
+    },
+    {
+      "start_seconds": 360,
+      "name": "vgg_double",
+      "label": "VGG \u7ffb\u500d",
+      "rates": {
+        "alexnet": 250.0,
+        "efficientnet": 250.0,
+        "mnasnet": 250.0,
+        "mobilenet": 250.0,
+        "resnet18": 250.0,
+        "resnet50": 250.0,
+        "vgg16": 500.0,
+        "vgg19": 500.0
+      }
+    },
+    {
+      "start_seconds": 720,
+      "name": "balanced_restore_1",
+      "label": "\u6062\u590d\u5747\u8861\u2460",
+      "rates": {
+        "alexnet": 250.0,
+        "efficientnet": 250.0,
+        "mnasnet": 250.0,
+        "mobilenet": 250.0,
+        "resnet18": 250.0,
+        "resnet50": 250.0,
+        "vgg16": 250.0,
+        "vgg19": 250.0
+      }
+    },
+    {
+      "start_seconds": 1080,
+      "name": "resnet_double",
+      "label": "ResNet \u7ffb\u500d",
+      "rates": {
+        "alexnet": 250.0,
+        "efficientnet": 250.0,
+        "mnasnet": 250.0,
+        "mobilenet": 250.0,
+        "resnet18": 500.0,
+        "resnet50": 500.0,
+        "vgg16": 250.0,
+        "vgg19": 250.0
+      }
+    },
+    {
+      "start_seconds": 1440,
+      "name": "vgg_double_2",
+      "label": "\u70ed\u70b9\u8f6c\u5230 VGG",
+      "rates": {
+        "alexnet": 250.0,
+        "efficientnet": 250.0,
+        "mnasnet": 250.0,
+        "mobilenet": 250.0,
+        "resnet18": 250.0,
+        "resnet50": 250.0,
+        "vgg16": 500.0,
+        "vgg19": 500.0
+      }
+    },
+    {
+      "start_seconds": 1800,
+      "name": "balanced_restore_2",
+      "label": "\u6062\u590d\u5747\u8861\u2461",
+      "rates": {
+        "alexnet": 250.0,
+        "efficientnet": 250.0,
+        "mnasnet": 250.0,
+        "mobilenet": 250.0,
+        "resnet18": 250.0,
+        "resnet50": 250.0,
+        "vgg16": 250.0,
+        "vgg19": 250.0
+      }
+    }
+  ],
+  "provenance": "Extended stability experiment, not a paper reproduction: 12.5 samples/s/model base from original sender semantics; uniform input batches and exponential intervals conditional on batch. Six phases with VGG and ResNet hotspots; 250/400ms SLO. Slice profiles are chosen by the existing scheduler."
+}

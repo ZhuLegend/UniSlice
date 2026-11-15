@@ -1,0 +1,45 @@
+# Configuration values are preserved. See the English deployment and experiment guides.
+[sender]
+daemon_url = "http://localhost:3000"
+log_dir = "task_sender_logs"
+stats_interval = 30
+cycle_duration = 300
+[metrics]
+rate_window_size = 60
+latency_window_size = 10
+[rate_change]
+strategy = "random_walk"
+transition_steps = 10
+walk_step_percent = 0.1
+[[models]]
+name = "alexnet"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]
+[[models]]
+name = "efficientnet"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]
+[[models]]
+name = "mnasnet"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]
+[[models]]
+name = "mobilenet"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]
+[[models]]
+name = "resnet18"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]
+[[models]]
+name = "resnet50"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]
+[[models]]
+name = "vgg16"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]
+[[models]]
+name = "vgg19"
+rate_range = [80.0, 120.0]
+batch_size_range = [1, 32]

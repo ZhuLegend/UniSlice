@@ -1,0 +1,4 @@
+{
+  "nvidia_a100": "../latency/latency-1.4.csv",
+  "nvidia_a100_half": "../latency/latency-1.4.csv"
+}

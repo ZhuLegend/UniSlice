@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "send_seconds": 30,
+  "seed": 20260923,
+  "execution_cv": 0.1,
+  "unique_candidates": 416,
+  "scenarios": [
+    "mixed-two-skewed",
+    "full-two-balanced",
+    "full-two-low",
+    "full-two-high",
+    "full-two-skewed",
+    "full-four-skewed"
+  ],
+  "candidate_counts": {
+    "mixed-two-skewed": 297,
+    "full-two-balanced": 21,
+    "full-two-low": 21,
+    "full-two-high": 21,
+    "full-two-skewed": 21,
+    "full-four-skewed": 35
+  },
+  "search_seeds": [
+    2026100501,
+    2026100502,
+    2026100503,
+    2026100504,
+    2026100505
+  ],
+  "validation_seeds": [
+    2026100511,
+    2026100512,
+    2026100513,
+    2026100514,
+    2026100515,
+    2026100516,
+    2026100517,
+    2026100518,
+    2026100519,
+    2026100520
+  ]
+}

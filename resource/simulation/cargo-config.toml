@@ -1,0 +1,11 @@
+# Portable CPU reproduction profile; copy to .cargo/config.toml in a new checkout.
+[build]
+rustflags = ["--cfg", "tokio_unstable"]
+
+[profile.dev]
+opt-level = 1
+debug = false
+split-debuginfo = "unpacked"
+
+[profile.dev.package."*"]
+opt-level = 3

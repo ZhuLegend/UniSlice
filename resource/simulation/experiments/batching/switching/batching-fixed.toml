@@ -1,0 +1,2 @@
+batch_extractor_strategy = { "type" = "SplitAndSatisfy" }
+batch_size_range = [1, 32]

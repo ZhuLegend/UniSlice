@@ -1,0 +1,144 @@
+{
+  "workload_seed": 20260923,
+  "cv": 0.1,
+  "coarse_targets": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "coarse_seed": 2026102701,
+  "local_seeds": [
+    2026102702,
+    2026102703
+  ],
+  "validation_seeds": [
+    2026102711,
+    2026102712,
+    2026102713,
+    2026102714,
+    2026102715
+  ],
+  "calibration_seed": 2026102799,
+  "calibration_screen": {
+    "mean_ratio_range": [
+      0.9,
+      1.1
+    ],
+    "p99_ratio_range": [
+      0.75,
+      1.25
+    ],
+    "slo400_absolute_difference_pp": 2.0,
+    "scope": "Two-sided engineering interference screen only, not statistical equivalence; no automatic retry or concurrency fallback."
+  },
+  "search_budget_max": 216,
+  "validation_trials": 40,
+  "calibration_trials": 11,
+  "new_trials_max": 267,
+  "local_rule": "Cartesian product of each coarse-winning coordinate minus1/current/plus1, clipped to [1,32], unique values; at most9 pairs; remeasure all local candidates on2 disjoint tuning seeds, including coarse winner; no further expansion.",
+  "selection": "Minimize mean successful server JCT on the identical original UUID intersection across all candidates/seeds within that search stage. Preserve intersection IDs/count/coverage. No complete-only filter. Tie-break by all-offered5s capped E2E then target tuple. Search is finite and local, not globally optimal.",
+  "comparison": "All final dynamic and selected-fixed measurements newly executed, alternating arm order within5 matched independent runtime seeds per case; serial validation. No historical numerical reuse.",
+  "tail": "Original300s application deadline; uniform observation end=input end+10s; no flushing/padding. Valid overload may leave non-tail outstanding samples, recorded separately from unfillable modulus without assuming all are queued.",
+  "cases": {
+    "low": {
+      "seconds": 30,
+      "offered_requests": 205,
+      "offered_samples": 3264,
+      "extractors": {
+        "dynamic": {
+          "type": "TimeoutProbabilitySplitAndSatisfy",
+          "timeout": {
+            "secs": 0,
+            "nanos": 8000000
+          },
+          "inner": {
+            "threshold": 0.0,
+            "inner": {}
+          }
+        },
+        "fixed": {
+          "type": "SplitAndSatisfy"
+        }
+      },
+      "source_input_sha256": {
+        "replay.json": "cbea614a54ab78b06873c8d2a9d6baad6c6597318045279a77083ecb6d9e1849"
+      }
+    },
+    "medium": {
+      "seconds": 30,
+      "offered_requests": 425,
+      "offered_samples": 7109,
+      "extractors": {
+        "dynamic": {
+          "type": "TimeoutProbabilitySplitAndSatisfy",
+          "timeout": {
+            "secs": 0,
+            "nanos": 8000000
+          },
+          "inner": {
+            "threshold": 0.0,
+            "inner": {}
+          }
+        },
+        "fixed": {
+          "type": "SplitAndSatisfy"
+        }
+      },
+      "source_input_sha256": {
+        "replay.json": "b613c321e713e2b8e3aa5666c290ce89ec2d10b2c5f09e8e3179cd01245de884"
+      }
+    },
+    "high": {
+      "seconds": 30,
+      "offered_requests": 833,
+      "offered_samples": 13927,
+      "extractors": {
+        "dynamic": {
+          "type": "TimeoutProbabilitySplitAndSatisfy",
+          "timeout": {
+            "secs": 0,
+            "nanos": 8000000
+          },
+          "inner": {
+            "threshold": 0.0,
+            "inner": {}
+          }
+        },
+        "fixed": {
+          "type": "SplitAndSatisfy"
+        }
+      },
+      "source_input_sha256": {
+        "replay.json": "37c6152683efe9cc37e5a4dd0949c08cb69466a4892ee4b44f43f8cca9a7dd5b"
+      }
+    },
+    "switching": {
+      "seconds": 90,
+      "offered_requests": 1212,
+      "offered_samples": 19806,
+      "extractors": {
+        "dynamic": {
+          "type": "TimeoutProbabilitySplitAndSatisfy",
+          "timeout": {
+            "secs": 0,
+            "nanos": 8000000
+          },
+          "inner": {
+            "threshold": 0.0,
+            "inner": {}
+          }
+        },
+        "fixed": {
+          "type": "SplitAndSatisfy"
+        }
+      },
+      "source_input_sha256": {
+        "replay.json": "5317aa34f4e732093bda7074b1976349ce20dacf05ce6f9e9365bbe8482f1e72"
+      }
+    }
+  },
+  "tuning_concurrency": 1
+}
